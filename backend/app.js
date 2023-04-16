@@ -27,7 +27,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 // Router
 app.use("/api/v1", transactionRoutes);
-app.use("/api/v1", userRoutes);
+app.use("/api/auth", userRoutes);
 
 app.get("/", (req, res) =>{
     res.send("Hello World!");

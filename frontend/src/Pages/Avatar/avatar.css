@@ -1,0 +1,24 @@
+.containerBox{
+    height: 100%;
+}
+
+.avatarBox{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    flex-direction: column;
+
+}
+
+.avatar:hover{
+    border: 0.4rem solid blueviolet;
+
+    transition: 0.5s ease-in-out;
+    cursor: pointer;
+}
+
+.selected{
+    border: 0.4rem solid blueviolet !important; 
+}
+

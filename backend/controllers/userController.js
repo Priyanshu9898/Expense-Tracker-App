@@ -5,7 +5,7 @@ export const registerControllers = async (req, res, next) => {
     try{
         const {name, email, password} = req.body;
 
-        console.log(name, email, password);
+        // console.log(name, email, password);
 
         if(!name || !email || !password){
             return res.status(400).json({
@@ -27,8 +27,7 @@ export const registerControllers = async (req, res, next) => {
 
         const hashedPassword = await bcrypt.hash(password, salt);
 
-        console.log(hashedPassword);
-
+        // console.log(hashedPassword);
 
         let newUser = await User.create({
             name, 
@@ -39,7 +38,7 @@ export const registerControllers = async (req, res, next) => {
         return res.status(200).json({
             success: true,
             message: "User Created Successfully",
-            newUser
+            user: newUser
         });
     }
     catch(err){
@@ -79,6 +78,8 @@ export const loginControllers = async (req, res, next) => {
             }); 
         }
 
+        delete user.password;
+
         return res.status(200).json({
             success: true,
             message: `Welcome back, ${user.name}`,
@@ -91,5 +92,45 @@ export const loginControllers = async (req, res, next) => {
             success: false,
             message: err.message,
         });
+    }
+}
+
+export const setAvatarController = async (req, res, next)=> {
+    try{
+
+        const userId = req.params.id;
+       
+        const imageData = req.body.image;
+      
+        const userData = await User.findByIdAndUpdate(userId, {
+            isAvatarImageSet: true,
+            avatarImage: imageData,
+        },
+        { new: true });
+
+        return res.status(200).json({
+            isSet: userData.isAvatarImageSet,
+            image: userData.avatarImage,
+          });
+
+
+    }catch(err){
+        next(err);
+    }
+}
+
+export const allUsers = async (req, res, next) => {
+    try{
+        const user = await User.find({_id: {$ne: req.params.id}}).select([
+            "email",
+            "username",
+            "avatarImage",
+            "_id",
+        ]);
+
+        return res.json(user);
+    }
+    catch(err){
+        next(err);
     }
 }
