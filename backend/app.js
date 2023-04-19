@@ -9,11 +9,7 @@ import transactionRoutes from "./Routers/Transactions.js";
 import userRoutes from "./Routers/userRouter.js";
 import path from "path";
 
-import { fileURLToPath } from 'url';
-import { dirname } from 'path';
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
 
 dotenv.config({path: "./config/config.env"})
 const app = express();
@@ -31,12 +27,7 @@ app.use(morgan("dev"));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
-// Static files
-app.use(express.static(path.join(__dirname, "../frontend/build")));
 
-app.get("*", function(req, res) {
-    res.sendFile(path.join(__dirname, "../frontend/build/index.html"));
-})
 
 // Router
 app.use("/api/v1", transactionRoutes);
