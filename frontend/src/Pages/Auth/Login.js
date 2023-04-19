@@ -44,7 +44,6 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    
     const {email, password} = values;
 
     const {data} = await axios.post(loginAPI, {
@@ -161,7 +160,7 @@ const Login = () => {
               <div style={{width: "100%", display: "flex" , alignItems:"center", justifyContent:"center", flexDirection: "column"}} className="mt-4">
               <Link to="/forgotPassword" className="text-white lnk" >Forgot Password?</Link>
 
-              <Button  type="submit" className=" text-center mt-3 btnStyle" onSubmit={handleSubmit}>
+              <Button  type="submit" className=" text-center mt-3 btnStyle" onClick={handleSubmit}>
                 Login
               </Button>
 
