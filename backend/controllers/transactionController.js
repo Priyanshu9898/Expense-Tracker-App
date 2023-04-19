@@ -1,5 +1,5 @@
 import Transaction from "../models/TransactionModel.js";
-import User from "../models/userSchema.js";
+import User from "../models/UserSchema.js";
 import moment from "moment";
 
 export const addTransactionController = async (req, res) => {
