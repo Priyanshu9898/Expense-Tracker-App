@@ -12,8 +12,8 @@ import Spinner from "../../components/Spinner";
 import TableData from "./TableData";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import FormatListBulletedIcon from '@mui/icons-material/FormatListBulleted';
-import BarChartIcon from '@mui/icons-material/BarChart';
+import FormatListBulletedIcon from "@mui/icons-material/FormatListBulleted";
+import BarChartIcon from "@mui/icons-material/BarChart";
 import Analytics from "./Analytics";
 
 const Home = () => {
@@ -38,7 +38,7 @@ const Home = () => {
   const [type, setType] = useState("all");
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
-  const [view, setView] = useState('table');
+  const [view, setView] = useState("table");
 
   const handleStartChange = (date) => {
     setStartDate(date);
@@ -55,7 +55,7 @@ const Home = () => {
     const avatarFunc = async () => {
       if (localStorage.getItem("user")) {
         const user = JSON.parse(localStorage.getItem("user"));
-        // console.log(user);
+        console.log(user);
 
         if (user.isAvatarImageSet === false || user.avatarImage === "") {
           navigate("/setAvatar");
@@ -121,8 +121,8 @@ const Home = () => {
 
     if (data.success === true) {
       toast.success(data.message, toastOptions);
-      await handleClose();
-      await setRefresh(!refresh);
+      handleClose();
+      setRefresh(!refresh);
     } else {
       toast.error(data.message, toastOptions);
     }
@@ -135,13 +135,18 @@ const Home = () => {
     setStartDate(null);
     setEndDate(null);
     setFrequency("7");
-  }
+  };
+
+
+  
+
 
   useEffect(() => {
-    const fetchAllTransactions = async (req, res) => {
+
+    const fetchAllTransactions = async () => {
       try {
         setLoading(true);
-        console.log(frequency);
+        console.log(cUser._id, frequency, startDate, endDate, type);
         const { data } = await axios.post(getTransactions, {
           userId: cUser._id,
           frequency: frequency,
@@ -150,29 +155,26 @@ const Home = () => {
           type: type,
         });
         console.log(data);
-
-        if (data.success === true) {
-          setTransactions(data.transactions);
-        } else {
-          toast.error(data.message, toastOptions);
-        }
-
+  
+        setTransactions(data.transactions);
+  
         setLoading(false);
       } catch (err) {
-        toast.error("Error please Try again...", toastOptions);
+        // toast.error("Error please Try again...", toastOptions);
+        setLoading(false);
       }
     };
 
     fetchAllTransactions();
-  }, [refresh, frequency, endDate, type]);
+  }, [refresh, frequency, endDate, type, startDate]);
 
   const handleTableClick = (e) => {
     setView("table");
-  }
+  };
 
   const handleChartClick = (e) => {
     setView("chart");
-  }
+  };
 
   return (
     <>
@@ -221,13 +223,29 @@ const Home = () => {
               </div>
 
               <div className="text-white iconBtnBox">
-                <FormatListBulletedIcon sx={{cursor: "pointer"}} onClick={handleTableClick} className={`${view === "table" ? "iconActive" : "iconDeactive"}` } />
-                <BarChartIcon sx={{cursor: "pointer"}} onClick={handleChartClick} className={`${view === "chart" ? "iconActive" :"iconDeactive"}` }/>
+                <FormatListBulletedIcon
+                  sx={{ cursor: "pointer" }}
+                  onClick={handleTableClick}
+                  className={`${
+                    view === "table" ? "iconActive" : "iconDeactive"
+                  }`}
+                />
+                <BarChartIcon
+                  sx={{ cursor: "pointer" }}
+                  onClick={handleChartClick}
+                  className={`${
+                    view === "chart" ? "iconActive" : "iconDeactive"
+                  }`}
+                />
               </div>
 
               <div>
-                <Button onClick={handleShow} className="addNew">Add New</Button>
-                <Button onClick={handleShow} className="mobileBtn">+</Button>
+                <Button onClick={handleShow} className="addNew">
+                  Add New
+                </Button>
+                <Button onClick={handleShow} className="mobileBtn">
+                  +
+                </Button>
                 <Modal show={show} onHide={handleClose} centered>
                   <Modal.Header closeButton>
                     <Modal.Title>Add Transaction Details</Modal.Title>
@@ -370,15 +388,15 @@ const Home = () => {
                 Reset Filter
               </Button>
             </div>
-              {
-                view === "table" ? (
-                <>
-                  <TableData data={transactions} user={cUser} />
-                
-                </>) : (<>
-                  <Analytics transactions={transactions} user={cUser}/>
-                </>)
-              }
+            {view === "table" ? (
+              <>
+                <TableData data={transactions} user={cUser} />
+              </>
+            ) : (
+              <>
+                <Analytics transactions={transactions} user={cUser} />
+              </>
+            )}
             <ToastContainer />
           </Container>
         </>

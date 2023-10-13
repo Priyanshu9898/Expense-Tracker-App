@@ -6,12 +6,11 @@ import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import "./home.css";
 import { deleteTransactions, editTransactions } from "../../utils/ApiRequest";
 import axios from "axios";
-import ModelForm from "./ModelForm";
 
 const TableData = (props) => {
   const [show, setShow] = useState(false);
   const [transactions, setTransactions] = useState([]);
-  const [loading, setLoading] = useState(false);
+  // const [loading, setLoading] = useState(false);
   const [editingTransaction, setEditingTransaction] = useState(null);
   const [currId, setCurrId] = useState(null);
   const [refresh, setRefresh] = useState(false);

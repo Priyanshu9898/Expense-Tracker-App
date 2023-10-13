@@ -67,11 +67,9 @@ export const addTransactionController = async (req, res) => {
 
 export const getAllTransactionController = async (req, res) => {
   try {
+    const { userId, type, frequency, startDate, endDate } = req.body;
 
-
-    const { frequency, userId, startDate, endDate, type } = req.body;
-
-    console.log( frequency, userId, startDate, endDate, type );
+    console.log(userId, type, frequency, startDate, endDate);
 
     const user = await User.findById(userId);
 
@@ -82,23 +80,30 @@ export const getAllTransactionController = async (req, res) => {
       });
     }
 
-    const transactions = await Transaction.find({
-
-        ...(frequency !== 'custom' ? {
-            date: {
-                $gt: moment().subtract(Number(frequency), "days").toDate(),
-            },
-
-        } : {
-            date: {
-                $gte: startDate,
-                $lte: endDate,
-            },
-        }),
-      
+    // Create a query object with the user and type conditions
+    const query = {
       user: userId,
-      ...(type !== 'all' ) && {transactionType: type}
-    });
+    };
+
+    if (type !== 'all') {
+      query.transactionType = type;
+    }
+
+    // Add date conditions based on 'frequency' and 'custom' range
+    if (frequency !== 'custom') {
+      query.date = {
+        $gt: moment().subtract(Number(frequency), "days").toDate()
+      };
+    } else if (startDate && endDate) {
+      query.date = {
+        $gte: moment(startDate).toDate(),
+        $lte: moment(endDate).toDate(),
+      };
+    }
+
+    // console.log(query);
+
+    const transactions = await Transaction.find(query);
 
     // console.log(transactions);
 
@@ -114,12 +119,13 @@ export const getAllTransactionController = async (req, res) => {
   }
 };
 
+
 export const deleteTransactionController = async (req, res) => {
   try {
     const transactionId = req.params.id;
     const userId = req.body.userId;
 
-    console.log(transactionId, userId);
+    // console.log(transactionId, userId);
 
     const user = await User.findById(userId);
 

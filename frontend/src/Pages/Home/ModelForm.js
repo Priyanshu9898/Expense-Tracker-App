@@ -4,7 +4,7 @@ import { Button, Form, Modal } from "react-bootstrap";
 const ModelForm = ({transaction, onClose, isShow}) => {
 
 
-  console.log(transaction);
+  // console.log(transaction);
 
   const [show, setShow] = useState(false);
 
@@ -25,9 +25,9 @@ const ModelForm = ({transaction, onClose, isShow}) => {
 
   const handleClose = () => {setShow(false)};
 
-  const handleShow = (index) => {
-    setShow(true)
-  };
+  // const handleShow = (index) => {
+  //   setShow(true)
+  // };
 
   return (
     <div>

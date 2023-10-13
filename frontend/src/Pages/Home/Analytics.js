@@ -1,11 +1,11 @@
 import React from "react";
-import CardBox from "./CardBox";
+// import CardBox from "./CardBox";
 import { Container, Row } from "react-bootstrap";
 import CircularProgressBar from "../../components/CircularProgressBar";
 import LineProgressBar from "../../components/LineProgressBar";
 import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
 import CurrencyRupeeIcon from '@mui/icons-material/CurrencyRupee';
-import MovingIcon from '@mui/icons-material/Moving';
+// import MovingIcon from '@mui/icons-material/Moving';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 
 
@@ -73,7 +73,7 @@ const Analytics = ({ transactions }) => {
         <Row>
           <div className="col-lg-3 col-md-6 mb-4">
             <div className="card h-100">
-              <div class="card-header bg-black text-white">
+              <div className="card-header bg-black text-white">
                 <span style={{ fontWeight: "bold" }}>Total Transactions:</span>{" "}
                 {TotalTransactions}
               </div>
@@ -104,7 +104,7 @@ const Analytics = ({ transactions }) => {
 
           <div className="col-lg-3 col-md-6 mb-4">
             <div className="card h-100">
-              <div class="card-header bg-black text-white ">
+              <div className="card-header bg-black text-white ">
                 <span style={{ fontWeight: "bold" }}>Total TurnOver:</span>{" "}
                 {totalTurnOver}
               </div>

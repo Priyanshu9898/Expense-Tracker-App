@@ -13,6 +13,7 @@ import axios from "axios";
 
 const Register = () => {
 
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -57,6 +58,7 @@ const Register = () => {
 
       const {name, email, password} = values;
 
+      setLoading(false);
      
       const {data} = await axios.post(registerAPI, {
         name,
@@ -67,10 +69,13 @@ const Register = () => {
       if(data.success === true){
         delete data.user.password;
         localStorage.setItem("user", JSON.stringify(data.user));
+        toast.success(data.message, toastOptions);
+        setLoading(true);
         navigate("/");
       }
       else{
         toast.error(data.message, toastOptions);
+        setLoading(false);
       }
     };
 
@@ -169,11 +174,16 @@ const Register = () => {
             <div style={{width: "100%", display: "flex" , alignItems:"center", justifyContent:"center", flexDirection: "column"}} className="mt-4">
               <Link to="/forgotPassword" className="text-white lnk" >Forgot Password?</Link>
 
-              <Button   className=" text-center mt-3 btnStyle" onClick={handleSubmit}>
-                Signup
-              </Button>
+              <Button
+                  type="submit"
+                  className=" text-center mt-3 btnStyle"
+                  onClick={!loading ? handleSubmit : null}
+                  disabled={loading}
+                >
+                  {loading ? "Registering..." : "Signup"}
+                </Button>
 
-              <p className="mt-3" color={{color: "#343a40"}}>Already have an account? <Link to="/login" className="text-white lnk" >Login</Link></p>
+              <p className="mt-3" style={{color: "#9d9494"}}>Already have an account? <Link to="/login" className="text-white lnk" >Login</Link></p>
             </div>
           </Form>
         </Col>
