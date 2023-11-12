@@ -16,11 +16,17 @@ const port = process.env.PORT;
 
 connectDB();
 
+const allowedOrigins = [
+  "https://main.d1sj7cd70hlter.amplifyapp.com",
+  "https://expense-tracker-app-three-beryl.vercel.app",
+  // add more origins as needed
+];
+
 // Middleware
 app.use(express.json());
 app.use(
   cors({
-    origin: "https://main.d1sj7cd70hlter.amplifyapp.com",
+    origin: allowedOrigins,
     credentials: true,
     methods: ["GET", "POST", "PUT", "DELETE"],
   })
