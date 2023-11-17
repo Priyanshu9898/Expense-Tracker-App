@@ -122,6 +122,8 @@ Start the backend server
 
 To run this project, you will need to add the following environment variables to your .env file in backend folder
 
+create config folder and add config.env file in it and all all env variables there.
+
 `MONGO_URL` : Your MongoDB Connection String
 
 `PORT`: PORT number
